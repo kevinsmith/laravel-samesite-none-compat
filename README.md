@@ -19,10 +19,10 @@ appcookie=value; SameSite=None; Secure
 This package will add a this fallback cookie in the response that gets sent back to the browser:
 
 ```
-appcookie__ssn-legacy=value; Secure
+appcookie__ssn-fallback=value; Secure
 ```
 
-When your app receives an incoming request, this package will inspect the cookies and promote any fallback cookies that don't have a standard counterpart marked as `SameSite=None; Secure`.
+When your app receives an incoming request, this package will inspect the cookies and promote any fallback cookies that don't already have a primary counterpart marked as `SameSite=None; Secure`.
 
 ## License
 

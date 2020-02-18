@@ -32,6 +32,12 @@
         "sort-packages": true
     },
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "illuminate/http": "^5.8|^6"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^6.0",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpunit/phpunit": "^8.5"
     }
 }
