@@ -1,0 +1,37 @@
+{
+    "name": "kevinsmith/laravel-samesite-none-compat",
+    "description": "Provides support for legacy clients when using SameSite=None cookies in Laravel 5.8+",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Kevin Smith",
+            "email": "kevin@kevinsmith.io"
+        }
+    ],
+    "keywords": [
+        "laravel",
+        "laravel-package",
+        "samesite",
+        "samesite-cookies",
+        "cookies",
+        "compatibility-layer",
+        "middleware"
+    ],
+    "autoload": {
+        "psr-4": {
+            "KevinSmith\\SameSiteNoneCompat\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KevinSmith\\SameSiteNoneCompat\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=7.2"
+    }
+}
