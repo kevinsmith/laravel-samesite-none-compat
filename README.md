@@ -24,6 +24,21 @@ appcookie__ssn-fallback=value; Secure
 
 When your app receives an incoming request, this package will inspect the cookies and promote any fallback cookies that don't already have a primary counterpart marked as `SameSite=None; Secure`.
 
+## Install
+
+Add the middleware to the top of the [middleware property](https://laravel.com/docs/5.8/middleware#global-middleware) in Laravel so that this is the first middleware for every request entering the application:
+
+```php
+protected $middleware = [
+    \KevinSmith\SameSiteNoneCompat\Laravel\SameSiteNoneMiddleware::class,
+    // all other middleware...
+];
+```
+
+Then update `config/session.php` to enable secure cookies and set the `same_site` config to `'none'`. Note that it's important that both attributes are set correctly. Cookies marked as `SameSite=None` that do not specify `Secure` will not work.
+
+To check that it's working as expected, [inspect your cookies with Chrome](https://developers.google.com/web/tools/chrome-devtools/storage/cookies) and look for copies of all your cookies with the added suffix `__ssn-fallback`. And of course, you'll want to test this in all the browsers your audience uses to access your application.
+
 ## License
 
 Copyright 2020 Kevin Smith
