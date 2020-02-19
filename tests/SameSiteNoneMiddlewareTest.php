@@ -70,9 +70,10 @@ class SameSiteNoneMiddlewareTest extends TestCase
     public function createOutgoingFallbackCookies() : void
     {
         $this->addCookieToResponse('cookie_1', 'dUuEjdsIYk86iIgiKFro');
-        $this->addCookieToResponse('cookie_2', 'wprRSHWj5V2CY2v1oNyv', true);
-        $this->addCookieToResponse('cookie_3', 'i3rXl5HLRg3V0yJySvN9', true);
+        $this->addCookieToResponse('cookie_2', 'wprRSHWj5V2CY2v1oNyv', true, true);
+        $this->addCookieToResponse('cookie_3', 'i3rXl5HLRg3V0yJySvN9', true, true);
         $this->addCookieToResponse('cookie_4', '0PitdbGuHYrX5Yz7WhF0');
+        $this->addCookieToResponse('cookie_5', 'DO1FKvXp2juWJFmkVvKz', false, true);
 
         $response = $this->middleware->handle($this->request, function () : Response {
             return $this->response;
@@ -81,7 +82,7 @@ class SameSiteNoneMiddlewareTest extends TestCase
         /** @var Cookie[] $responseCookies */
         $responseCookies = $response->headers->getCookies(ResponseHeaderBag::COOKIES_ARRAY)['example.com']['/'];
 
-        self::assertCount(6, $responseCookies);
+        self::assertCount(7, $responseCookies);
         self::assertSame('dUuEjdsIYk86iIgiKFro', $responseCookies['cookie_1']->getValue());
 
         self::assertSame('wprRSHWj5V2CY2v1oNyv', $responseCookies['cookie_2']->getValue());
@@ -95,6 +96,10 @@ class SameSiteNoneMiddlewareTest extends TestCase
         self::assertNull($responseCookies['cookie_3' . $this->fallbackSuffix]->getSameSite());
 
         self::assertSame('0PitdbGuHYrX5Yz7WhF0', $responseCookies['cookie_4']->getValue());
+
+        self::assertSame('DO1FKvXp2juWJFmkVvKz', $responseCookies['cookie_5']->getValue());
+        self::assertSame('none', mb_strtolower($responseCookies['cookie_5']->getSameSite()));
+        self::assertArrayNotHasKey('cookie_5' . $this->fallbackSuffix, $responseCookies);
     }
 
     private function addCookieToRequest(string $name, string $value, bool $isFallback = false) : void
@@ -106,7 +111,7 @@ class SameSiteNoneMiddlewareTest extends TestCase
         $this->request->cookies->add([$name => $value]);
     }
 
-    private function addCookieToResponse(string $name, string $value, bool $isSameSiteNone = false) : void
+    private function addCookieToResponse(string $name, string $value, bool $isSecure = false, bool $isSameSiteNone = false) : void
     {
         $this->response->headers->setCookie(
             new Cookie(
@@ -115,7 +120,7 @@ class SameSiteNoneMiddlewareTest extends TestCase
                 0,
                 '/',
                 'example.com',
-                $isSameSiteNone,
+                $isSecure,
                 false,
                 false,
                 $isSameSiteNone ? 'None' : null

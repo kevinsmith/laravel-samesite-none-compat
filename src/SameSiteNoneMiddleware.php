@@ -88,6 +88,10 @@ final class SameSiteNoneMiddleware
             array_filter(
                 $response->headers->getCookies(),
                 static function (Cookie $cookie) {
+                    if (! $cookie->isSecure()) {
+                        return false;
+                    }
+
                     return mb_strtolower($cookie->getSameSite() ?? '') === 'none';
                 }
             )
