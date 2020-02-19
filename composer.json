@@ -38,6 +38,7 @@
     "require-dev": {
         "doctrine/coding-standard": "^6.0",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5",
+        "roave/security-advisories": "dev-master"
     }
 }
